@@ -1,0 +1,68 @@
+package vendingMachine;
+
+import java.util.*;
+
+public class Dispenser {
+
+	private String name;
+	private int numOfProducts;
+	private static ArrayList<Product> inventory = new ArrayList<Product>();
+
+	public Dispenser() {
+
+	}
+
+	public Dispenser(String name) {
+		this.setName(name);
+	}
+
+	public Dispenser(Product product) {
+
+	}
+
+	public void setContents(ArrayList<Product> inventory) {
+
+		Dispenser.inventory = inventory;
+	}
+
+	List<Product> getContents() {
+		return inventory;
+
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getNumOfProducts() {
+		return numOfProducts;
+	}
+
+	public void setNumOfProducts(int numOfProducts) {
+		this.numOfProducts = numOfProducts;
+	}
+
+	public static void displayProducts() {
+		System.out.println(inventory.toString());
+	}
+
+	public static void main(String[] args) {
+
+		inventory.add(new Candy("Hershey's  ", .50));
+		inventory.add(new Chips("Doritos ", .50));
+		inventory.add(new Gum("Doublemint ", .50));
+		inventory.add(new Candy("Mars  ", .50));
+		inventory.add(new Gum("Big Red  ", .50));
+		inventory.add(new Chips("Fritos  ", .50));
+		inventory.add(new Chips("Lays  ", .50));
+		inventory.add(new Chips("Cheetos  ", .50));
+
+		Dispenser.displayProducts();
+		
+	}
+
+}
