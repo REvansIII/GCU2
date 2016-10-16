@@ -1,6 +1,6 @@
 package vendingMachine;
 
-public class Drink extends Product {
+public class Drink extends Product implements Comparable<Drink> {
 
 	public Drink() {
 
@@ -12,8 +12,8 @@ public class Drink extends Product {
 		this.price = price;
 
 	}
-	
-	public Drink(Product product){
+
+	public Drink(Product product) {
 		this.snackName = product.snackName;
 		this.price = product.price;
 	}
@@ -47,4 +47,26 @@ public class Drink extends Product {
 		return snackName + price;
 	}
 
-}
+	@Override
+	public int compareTo(Product o) {
+		int comparison = this.getsnackName().compareTo(o.getsnackName());
+	
+		if (comparison != 0)			
+			return comparison;
+		 
+		if (comparison == 0)
+			 return 0;
+			
+		if (this.getPrice() > o.getPrice())
+				return -1;
+		
+		if (this.getPrice() < o.getPrice())
+				return 1;
+		
+		return comparison;
+		
+		}
+		}
+	
+
+

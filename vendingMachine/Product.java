@@ -8,7 +8,7 @@ public abstract class Product {
 	Product() {
 	}
 
-	Product(String initialSnackName, double initialPrice){
+	Product(String snackName, double price){
 		this.snackName = snackName;
 		this.price = price;
 	}
@@ -32,5 +32,8 @@ public abstract class Product {
 	
 	
 	public abstract String toString();
+
+
+	
 
 }
