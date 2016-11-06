@@ -6,7 +6,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class GlobalInventoryManage {
@@ -16,19 +18,12 @@ public class GlobalInventoryManage {
 	private String filename;
 
 	static ArrayList<String> prodlist = new ArrayList<String>();
-	
 
 	GlobalInventoryManage() {
 	}
 
 	GlobalInventoryManage(String filename) {
 		this.filename = filename;
-	}
-
-	public static void main(String[] args) {
-		
-		Dispenser dq1 = new Dispenser();
-		GlobalInventoryManage.nameSearch();
 	}
 
 	public void readFile() {
@@ -77,18 +72,20 @@ public class GlobalInventoryManage {
 			}
 
 		}
-		
+
 		return prodlist;
 
 	}
-	
+
 	// sort
-	private static void sort(){  /* I spent a lot of time playing with the recursive sort methods, but was unable to 
-		negotiate them error free*/
-		
+	private static void sort() { /*
+									 * I spent a lot of time playing with the
+									 * recursive sort methods, but was unable to
+									 * negotiate them error free
+									 */
+
 		Collections.sort(prodlist);
 	}
-	
 
 	// name search
 	public static void nameSearch() {
@@ -101,18 +98,41 @@ public class GlobalInventoryManage {
 
 		for (int i = 0; i < prodlist.size(); i++) {
 			if (name.equals(prodlist.get(i))) {
-				System.out.println(name + " has been found at location " + prodlist.toString() );
+				System.out.println(name + " has been found at location " + prodlist.toString());
 
 			} else {
-				System.out.println("Product could not be located; please try again"); 
-				
+				System.out.println("Product could not be located; please try again");
 
 			}
 
 		}
 
 	}
-	
-	// write to text method here
 
+	/* I am not sure that I need to loop here.  I am concerned that the process may overwrite each time;  
+	*/
+
+	public static void textDoc() throws Exception {
+		BufferedWriter writer = null;
+
+		try {
+			writer = new BufferedWriter(new FileWriter("GlobalInventory.txt"));
+
+			for (int i = 0; i < prodlist.size(); i++) {
+				if (prodlist != null)
+					writer.write(prodlist.get(i));
+
+				System.out.println(prodlist);
+			}
+
+		} catch (IOException e) {
+		} finally {
+			try {
+				if (writer != null)
+					writer.close();
+			} catch (IOException e) {
+			}
+		}
+
+	}
 }
