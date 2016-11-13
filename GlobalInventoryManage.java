@@ -1,6 +1,6 @@
 package vendingMachine;
 
-//Milestone 6 CST115
+//Milestone 6 CST115 (Revised 12Nov2016)
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,104 +13,106 @@ import java.io.IOException;
 
 public class GlobalInventoryManage {
 
+	static String filename;
+
+	static ArrayList<String> prodList = new ArrayList<String>();
+
 	Scanner input;
-
-	private String filename;
-
-	static ArrayList<String> prodlist = new ArrayList<String>();
 
 	GlobalInventoryManage() {
 	}
 
 	GlobalInventoryManage(String filename) {
-		this.filename = filename;
+		GlobalInventoryManage.filename = filename;
 	}
 
-	public void readFile() {
+	public static void main(String[] args) {
 
-		BufferedReader buffer = null;
+		readFile();
+		sort();
+		nameSearch();
+		
+	}
+
+	public static void readFile() {
+		BufferedReader Buffer = null;
 
 		try {
-			String line;
+			String Line;
+			Buffer = new BufferedReader(new FileReader("C:/Users/Robbie/Documents/CST115_Final_Project/Inventory.csv"));
 
-			buffer = new BufferedReader(new FileReader("//csv file source goes here"));
-
-			// read file line by line
-			while ((line = buffer.readLine()) != null) {
-				System.out.println("CSV data: " + line);
-				System.out.println("ArrayList data: " + csvConversion(line) + "\n");
+			// How to read file in java line by line?
+			while ((Line = Buffer.readLine()) != null) {
+				System.out.println(CSVtoArrayList(Line) + "\n");
 			}
-		}
 
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
-		}
-
-		finally {
+		} finally {
 			try {
-				if (buffer != null)
-					buffer.close();
-			}
-
-			catch (IOException exception) {
-				exception.printStackTrace();
+				if (Buffer != null)
+					Buffer.close();
+			} catch (IOException Exception) {
+				Exception.printStackTrace();
 			}
 		}
 	}
 
-	// Split Operation
+	// CSV to ArrayList using Split Operation
+	public static ArrayList<String> CSVtoArrayList(String CSV) {
+		// ArrayList<String> prodList = new ArrayList<String>();
 
-	public ArrayList<String> csvConversion(String csv) {
-
-		if (csv != null) {
-			String[] splitData = csv.split("\\s*,\\s*");
-
+		if (CSV != null) {
+			String[] splitData = CSV.split("\\s*,\\s*");
 			for (int i = 0; i < splitData.length; i++) {
 				if (!(splitData[i] == null) || !(splitData[i].length() == 0)) {
-					prodlist.add(splitData[i].trim());
+					prodList.add(splitData[i].trim());
 				}
 			}
-
 		}
+		return prodList;
 
-		return prodlist;
+	}
+
+	public static void setList(ArrayList<String> list) {
+		prodList = list;
+	}
+
+	public static ArrayList<String> getList() {
+		return prodList;
 
 	}
 
 	// sort
-	private static void sort() { /*
-									 * I spent a lot of time playing with the
-									 * recursive sort methods, but was unable to
-									 * negotiate them error free
-									 */
+	static void sort() {
+		Collections.sort(prodList);
 
-		Collections.sort(prodlist);
 	}
 
 	// name search
-	public static void nameSearch() {
+	static String nameSearch() {
 
 		Scanner input = new Scanner(System.in);
 
-		System.out.println("Please enter the product you are searching for.");
+		System.out.println("Please enter the product you are searching for? " + prodList.size() + " available");
 
-		String name = input.nextLine();
+		String in = input.nextLine();
 
-		for (int i = 0; i < prodlist.size(); i++) {
-			if (name.equals(prodlist.get(i))) {
-				System.out.println(name + " has been found at location " + prodlist.toString());
-
-			} else {
-				System.out.println("Product could not be located; please try again");
-
-			}
-
+		// for(int i = 0; i< prodList.size(); i++){
+		if (prodList.contains(in)) {
+			System.out.println(in + " available at " + prodList.indexOf(in));
+		} else {
+			System.out.println("Please make another selection");
 		}
+		// }
+		return in;
 
 	}
 
-	/* I am not sure that I need to loop here.  I am concerned that the process may overwrite each time;  
-	*/
+	/*
+	 * I am not sure that I need to loop here. I am concerned that the process
+	 * may overwrite each time;
+	 */
 
 	public static void textDoc() throws Exception {
 		BufferedWriter writer = null;
@@ -118,11 +120,10 @@ public class GlobalInventoryManage {
 		try {
 			writer = new BufferedWriter(new FileWriter("GlobalInventory.txt"));
 
-			for (int i = 0; i < prodlist.size(); i++) {
-				if (prodlist != null)
-					writer.write(prodlist.get(i));
+			for (int i = 0; i < prodList.size(); i++) {
+				if (prodList != null)
+					writer.write(prodList.get(i));
 
-				System.out.println(prodlist);
 			}
 
 		} catch (IOException e) {
